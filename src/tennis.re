@@ -88,27 +88,42 @@ let newGame = Points({playerOne: Love, playerTwo: Love});
 
 let string_of_player = player =>
   switch (player) {
-  | PlayerOne => "PlayerOne"
-  | PlayerTwo => "PlayerTwo"
+  | PlayerOne => "Player 1"
+  | PlayerTwo => "Player 2"
   };
 
 let string_of_point = point =>
   switch (point) {
-  | Love => "Love"
-  | Fifteen => "Fifteen"
-  | Thirty => "Thirty"
+  | Love => "0"
+  | Fifteen => "15"
+  | Thirty => "30"
   };
+
+let print_forty = fortyData =>
+  fortyData.player == PlayerOne ?
+    string_of_player(PlayerOne)
+    ++ " : 40 - "
+    ++ string_of_point(fortyData.otherPlayerPoint)
+    ++ " : "
+    ++ string_of_player(PlayerTwo) :
+    string_of_player(PlayerOne)
+    ++ " : "
+    ++ string_of_point(fortyData.otherPlayerPoint)
+    ++ " - 40 : "
+    ++ string_of_player(PlayerTwo);
 
 let string_of_score = score =>
   switch (score) {
-  | Points(score) => string_of_point(score.playerOne) ++ string_of_point(score.playerTwo)
-  | Forty(score) => "Forty"
+  | Points(score) =>
+    string_of_player(PlayerOne)
+    ++ " : "
+    ++ string_of_point(score.playerOne)
+    ++ " - "
+    ++ string_of_point(score.playerTwo)
+    ++ " : "
+    ++ string_of_player(PlayerTwo)
+  | Forty(fortyData) => print_forty(fortyData)
   | Deuce => "Deuce"
-  | Advantage(score) => "Advantage"
-  | Game(score) => "Game"
+  | Advantage(player) => "Advantage for " ++ string_of_player(player)
+  | Game(player) => "Game won by " ++ string_of_player(player)
   };
-
-let loveFifteen = {playerOne: Love, playerTwo: Fifteen};
-let loveThirty = {playerOne: Love, playerTwo: Thirty};
-
-string_of_point(loveThirty.playerTwo);
